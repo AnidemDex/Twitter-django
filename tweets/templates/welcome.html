@@ -1,0 +1,19 @@
+<!--
+    Timeline: crea, elimina y edita un post hecho por el usuario.
+    Lista los post con la foto del usuario
+    Permite indicar si un post le gusta al usuario
+    Puede hacer comentarios sobre el post
+-->
+<div>
+    {% for tweet in tweets %}
+    <div>
+        <p> publicado: {{ tweet.created_at }}</p>
+        <h2><a href="/{{ tweet.author }}">{{ tweet.author }}</a></h2>
+        <p>{{ tweet.text|linebreaksbr }}</p>
+    </div>
+    {% endfor %}
+</div>
+
+<hr />
+<p>Sesion iniciada como <a href="{{request.user.username}}">{{request.user.username}}</a></p>
+<a href="/logout">Cerrar sesión</a>
