@@ -1,3 +1,21 @@
-<p>{{user.get_username}}</p>
+{% extends 'base.html' %}
+
+{% block title %} {{user}} {% endblock %}
+{% block content %}
+<div>
+    <!--Aqui va la imagen-->
+    <p>{{user.nombres}} {{user.apellidos}}</p>
+    <p>{{user}}</p>
+    <p>{{user.description}}</p>
+</div>
+<br />
+{% include 'new_tweet.html' %}
+{% for tweet in tweets %}
+<div>
+    <p> publicado: {{ tweet.created_at }}</p>
+    <h2><a href="/{{ tweet.author }}">{{ tweet.author }}</a></h2>
+    <p>{{ tweet.text|linebreaksbr }}</p>
+</div>
+{% endfor %}
+{% endblock content %}
 <!--Añadir mas informacíon en el perfil-->
-<p>Volver al <a href="/">inicio</a></p>

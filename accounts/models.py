@@ -15,8 +15,8 @@ def upload_location(instance, filename):
 class UserProfile(models.Model):
     user = models.OneToOneField(
         User, on_delete=models.CASCADE)
-    nombres = models.TextField(default='User')
-    apellidos = models.TextField(default='')
+    nombres = models.CharField(max_length=60)
+    apellidos = models.CharField(max_length=60)
     nacimiento = models.DateField(default='2000-01-01')
     description = models.CharField(max_length=160, blank=True)
 

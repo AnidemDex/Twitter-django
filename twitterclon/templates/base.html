@@ -4,10 +4,20 @@
     <title>
         {% block title %} {% endblock %}
     </title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
 </head>
 
 <body>
     {% block content %} {% endblock %}
+    <hr />
+    {% if request.user.is_authenticated %}
+    <p>Sesion iniciada como <a href="{{request.user.username}}">{{request.user.username}}</a></p>
+    {% else %}
+    <p>No has <a href="/login">iniciado sesion</a></p>
+    {% endif %}
+    <p>Volver al <a href="/">inicio</a></p>
+    <a href="/logout">Cerrar sesión</a>
 </body>
 
 </html>

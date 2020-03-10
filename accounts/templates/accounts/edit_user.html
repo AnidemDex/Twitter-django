@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %} Edita tu usuario {% endblock %}
+{% if request.user.is_authenticated %}
+<div>
+    <form method="POST">
+        {{ form.as_p }}
+        {% csrf_token %}
+        <button onclick="location.href='/request.user'">Cancelar</button>
+        <button type="submit">Guardar</button>
+    </form>
+</div>
+{% endif %}
+{% block content %}
+{% endblock %}

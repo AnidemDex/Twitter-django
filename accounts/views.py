@@ -8,10 +8,17 @@ from tweets.views import tweet_list
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 
+from .models import UserProfile
+from tweets.forms import TweetForm
+from tweets.models import Tweet
+from tweets.views import get_new_tweetform
+
 
 def welcome(request):
     if request.user.is_authenticated:
-        context = {'tweets': tweet_list()}
+        form = get_new_tweetform(request)
+
+        context = {'tweets': tweet_list(), 'form': form}
         return render(request, "welcome.html", context=context)
     else:
         return redirect('/login')
@@ -57,8 +64,19 @@ def logout(request):
 
 
 def user(request, user_name):
+    form = get_new_tweetform(request)
     try:
-        user_db = User.objects.get(username=user_name)
+        user_id = User.objects.get(username=user_name).id
+        user_db = UserProfile.objects.get(user=user_id)
+        user_tweets = Tweet.objects.filter(author=user_id)
     except ObjectDoesNotExist:
         user_db = 'Este usuario no existe'
-    return render(request, "accounts/user_profile.html", {'user': user_db})
+        user_tweets = ''
+
+    contexto = {'user': user_db, 'tweets': user_tweets, 'form': form}
+    return render(request, "accounts/user_profile.html", context=contexto)
+
+
+def edit_user(request):
+    contexto = {}
+    return render(request, "accounts/edit_user.html", context=contexto)

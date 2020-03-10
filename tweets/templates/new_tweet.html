@@ -1,0 +1,9 @@
+{% if request.user.is_authenticated %}
+<div>
+    <form method="POST">
+        {{ form.as_p }}
+        {% csrf_token %}
+        <button type="submit">Publicar</button>
+    </form>
+</div>
+{% endif %}
