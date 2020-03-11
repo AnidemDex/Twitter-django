@@ -86,7 +86,8 @@ def user(request, user_name):
 
 @login_required(login_url='/login', redirect_field_name='')
 def edit_user(request, user_name):
-    user = User.objects.filter(username=user_name).first()
+    user = User.objects.get(username=user_name).id
+    user = UserProfile.objects.get(user=user)
     form = UserEditForm()
     if request.method == "POST":
         form = UserEditForm(request.POST, request.FILES, instance=user)
