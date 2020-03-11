@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import logout as close_session
 from django.contrib.auth import authenticate
 from django.contrib.auth.forms import AuthenticationForm
@@ -7,24 +7,28 @@ from django.contrib.auth.forms import UserCreationForm
 from tweets.views import tweet_list
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.decorators import login_required
 
 from .models import UserProfile
+from .forms import UserEditForm
 from tweets.forms import TweetForm
 from tweets.models import Tweet
 from tweets.views import get_new_tweetform
 
 
+@login_required(login_url='/login', redirect_field_name='')
 def welcome(request):
-    if request.user.is_authenticated:
-        form = get_new_tweetform(request)
-
-        context = {'tweets': tweet_list(), 'form': form}
-        return render(request, "welcome.html", context=context)
-    else:
-        return redirect('/login')
+    new_tweet_form = get_new_tweetform(request)
+    user_db = UserProfile.objects.all()
+    context = {'tweets': tweet_list(), 'form': new_tweet_form,
+               'users': user_db}
+    return render(request, "welcome.html", context=context)
 
 
 def register(request):
+    if request.user.is_authenticated:
+        return redirect('/')
+
     form = UserCreationForm()
 
     if request.method == "POST":
@@ -36,12 +40,15 @@ def register(request):
 
             if user is not None:
                 start_session(request, user)
-                return redirect('/')
+                return redirect('accounts/edit_user.html')
 
     return render(request, "accounts/register.html", {'form': form})
 
 
 def login(request):
+    if request.user.is_authenticated:
+        return redirect('/')
+
     form = AuthenticationForm()
 
     if request.method == 'POST':
@@ -70,13 +77,20 @@ def user(request, user_name):
         user_db = UserProfile.objects.get(user=user_id)
         user_tweets = Tweet.objects.filter(author=user_id)
     except ObjectDoesNotExist:
-        user_db = 'Este usuario no existe'
+        user_db = get_object_or_404(User.objects.get(username=user_name))
         user_tweets = ''
 
     contexto = {'user': user_db, 'tweets': user_tweets, 'form': form}
     return render(request, "accounts/user_profile.html", context=contexto)
 
 
-def edit_user(request):
-    contexto = {}
+@login_required(login_url='/login', redirect_field_name='')
+def edit_user(request, user_name):
+    user = User.objects.filter(username=user_name).first()
+    form = UserEditForm()
+    if request.method == "POST":
+        form = UserEditForm(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            form.save()
+    contexto = {'form': form, }
     return render(request, "accounts/edit_user.html", context=contexto)

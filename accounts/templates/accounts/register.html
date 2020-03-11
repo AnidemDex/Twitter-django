@@ -1,11 +1,35 @@
-<h2>Registrar usuario</h2>
+<!doctype html>
+<html>
 
-<form method="POST">
-    {{ form.as_p }}
-    {% csrf_token %}
-    <button type="submit">Registrar</button>
-</form>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+    <title>Iniciar Sesion</title>
+    {# Libreria bootstrap #}
+    {% load bootstrap4 %}
 
-<hr />
+    {# CSS Bootstrap #}
+    {% bootstrap_css %}
+</head>
 
-<a href="/login">Iniciar sesión</a>
+<body>
+    <div class="container">
+        <h2>Registrar usuario</h2>
+
+        <form method="POST">
+            {{ form.as_p }}
+            {% csrf_token %}
+            <button type="submit">Registrar</button>
+        </form>
+
+        <hr />
+
+        <a class="btn btn-primary" href="/login">Iniciar sesión</a>
+    </div>
+    {% bootstrap_javascript jquery='full' %}
+</body>
+
+</html>

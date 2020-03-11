@@ -1,10 +1,45 @@
-<h2>Iniciar sesión</h2>
+<!doctype html>
+<html>
 
-<form method="POST">
-    {{ form.as_p }}
-    {% csrf_token %}
-    <button type="submit">Login</button>
-</form>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+    <title>Iniciar Sesion</title>
+    {# Libreria bootstrap #}
+    {% load bootstrap4 %}
 
-<hr />
-<a href="/register">Registrar usuario</a>
+    {# CSS Bootstrap #}
+    {% bootstrap_css %}
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6" style="background: #1DA1F2 url(/media/images/Twitter_Logo_Blue.png) no-repeat;">
+            </div>
+            <div class="col-md-6">
+                <section>
+                    <h2>Iniciar sesión</h2>
+                    <div class="form-group">
+                        <form class="form-inline" method="POST">
+                            {{ form }}
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <hr />
+                    <a class="btn btn-primary" href="/register">Registrar usuario</a>
+                </section>
+            </div>
+        </div>
+    </div>
+    {% bootstrap_javascript jquery='full' %}
+</body>
+
+</html>

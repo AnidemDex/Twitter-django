@@ -14,11 +14,13 @@ def upload_location(instance, filename):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(
-        User, on_delete=models.CASCADE)
+        'auth.User', on_delete=models.CASCADE)
     nombres = models.CharField(max_length=60)
     apellidos = models.CharField(max_length=60)
     nacimiento = models.DateField(default='2000-01-01')
     description = models.CharField(max_length=160, blank=True)
+    profile_picture = models.ImageField(
+        upload_to='images/', default='images/Twitter_Logo_Blue.png')
 
     def __str__(self):
         return f"@{self.user.username}"

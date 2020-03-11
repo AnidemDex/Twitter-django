@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.utils import timezone
 from django.apps import apps
 from .forms import TweetForm
-
+from accounts.models import UserProfile
 Tweet = apps.get_model('tweets', 'Tweet')
 
 

@@ -6,6 +6,6 @@ urlpatterns = [
     path('register', register),
     path('login', login),
     path('logout', logout),
-    path('edit', edit_user),
+    path('<user_name>/edit', edit_user),
     path('<user_name>', user),
 ]

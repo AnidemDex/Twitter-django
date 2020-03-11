@@ -1,23 +1,38 @@
+{% load static %}
+<!doctype html>
 <html>
 
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
     <title>
         {% block title %} {% endblock %}
     </title>
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    {# Libreria bootstrap #}
+    {% load bootstrap4 %}
+
+    {# CSS Bootstrap #}
+    {% bootstrap_css %}
 </head>
 
-<body>
-    {% block content %} {% endblock %}
+<body style="background: #F5F8FA;">
+    <div class="container">
+        {% block content %} {% endblock %}
+    </div>
     <hr />
-    {% if request.user.is_authenticated %}
-    <p>Sesion iniciada como <a href="{{request.user.username}}">{{request.user.username}}</a></p>
-    {% else %}
-    <p>No has <a href="/login">iniciado sesion</a></p>
-    {% endif %}
-    <p>Volver al <a href="/">inicio</a></p>
-    <a href="/logout">Cerrar sesión</a>
+    <div>
+        {% if request.user.is_authenticated %}
+        <p>Sesion iniciada como <a href="{{request.user.username}}">{{request.user.username}}</a></p>
+        <a href="/logout">Cerrar sesión</a>
+        {% else %}
+        <p>No has <a href="/login">iniciado sesion</a></p>
+        {% endif %}
+        <p>Volver al <a href="/">inicio</a></p>
+    </div>
+    {% bootstrap_javascript jquery='full' %}
 </body>
 
 </html>
